@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+   <meta charset="UTF-8">
+   <title>생성형 AI 자동차 3D 평가, 3D model viewer</title>
+   <link rel="stylesheet" href="style.css">
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+   <!-- Google Model Viewer -->
+   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+</head>
+
+<body>
+   <div class="app-container">
+      <!-- Header/Case Switcher -->
+      <nav class="top-nav">
+         <div class="logo" title="생성형 AI 기반 자동차 3D 생성 워크플로우 평가 모델 뷰어">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;">
+               <path d="M2 12l5.25 5 2.625-5-2.625-5L2 12z"></path>
+               <path d="M11.375 12l5.25 5 2.625-5-2.625-5-5.25 5z"></path>
+               <path d="M22 12l-5.25 5-2.625-5 2.625-5L22 12z"></path>
+            </svg>
+            생성형 AI 자동차 3D 생성 평가 모델 뷰어
+         </div>
+         <div class="case-tabs">
+            <button class="tab active" data-case="workflow">워크플로우 (Workflow)</button>
+            <button class="tab" data-case="single">싱글뷰 이미지 (Baseline)</button>
+            <button class="tab" data-case="multi">멀티뷰 (Proposed)</button>
+            <button class="tab" data-case="parts">파츠 변형 (Application)</button>
+         </div>
+      </nav>
+
+      <div class="main-content">
+         <!-- Workflow View (Initially active) -->
+         <div class="workflow-container" id="workflow-view">
+            <!-- Global Watermark -->
+            <div class="wf-watermark">Hongik iiD-Lab</div>
+
+            <!-- Intro Section (Section 1) -->
+            <section class="wf-intro-section wf-scroll-section">
+               <h2 class="wf-intro-title">안녕하세요. 전문가님</h2>
+               <p class="wf-intro-text">
+                  본 뷰어에는 이미지 생성형 AI와 3D 생성형 AI를 결합한 워크플로우를 통해 생성된 자동차 3D 모델들이 제시되어 있습니다.
+               </p>
+               <p class="wf-intro-text">
+                  평가 대상은 3D 생성 도구 자체의 성능 비교가 아니라, 차량 이미지를 생성·수정한 뒤 이를 3D 모델로 연결하는 방식이 자동차 디자인 실무에서 얼마나 유효한지를 확인하는 것입니다.
+               </p>
+               <p class="wf-intro-text" style="margin-bottom: 1rem;">
+                  상단 메뉴에서 <strong style="color:#60a5fa;">싱글뷰 이미지(Baseline)</strong>, <strong
+                     style="color:#60a5fa;">멀티뷰(Proposed)</strong>, <strong style="color:#60a5fa;">파츠
+                     변형(Application)</strong> 결과를 순서대로 확인해 주세요.
+               </p>
+
+               <ul class="wf-intro-list">
+                  <li><strong>싱글뷰 이미지:</strong> 단일 시점 차량 이미지를 기반으로 생성된 3D 모델</li>
+                  <li><strong>멀티뷰:</strong> 전·측·후면 정보를 포함한 입력을 통해 시점 일관성을 높이도록 생성한 3D 모델</li>
+                  <li><strong>파츠 변형:</strong> 차량 이미지를 수정하거나 특정 스타일을 반영하여 생성한 3D 모델</li>
+               </ul>
+
+               <p class="wf-intro-text" style="color: #a1a1aa; font-weight: 500;">
+                  각 모델을 확인하시면서, 차량 디자인의 일관성, 후면/측면 조형 반영, 파츠 변화 반영, 차체 정체성 유지, 비례·볼륨 검토 가능성을 중심으로 평가해 주시기 바랍니다.
+               </p>
+
+               <!-- Scroll indicator -->
+               <div class="wf-scroll-indicator" style="margin-top: 4rem; margin-bottom: 6rem;">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                     <path d="M6 9l6 6 6-6" />
+                  </svg>
+               </div>
+            </section>
+
+            <!-- Process Section (Section 2) -->
+            <section class="wf-process-section wf-scroll-section">
+               <header class="wf-header">
+                  <h2 class="wf-title">자동차 디자인을 위한<br>AI 기반 이미지 생성 및 3D 생성 워크플로우</h2>
+               </header>
+
+               <div class="wf-core-flow">
+                  <!-- Block 1 -->
+                  <div class="wf-card">
+                     <h2 class="wf-step-title">1. 자동차 이미지 생성</h2>
+                     <ul class="wf-step-list">
+                        <li>싱글뷰 차량 이미지 생성</li>
+                        <li>멀티뷰 차량 이미지 구성</li>
+                     </ul>
+                  </div>
+
+                  <div class="wf-arrow">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                     </svg>
+                  </div>
+
+                  <!-- Block 2 -->
+                  <div class="wf-card">
+                     <h2 class="wf-step-title">2. 스타일 변형 및 디자인 수정</h2>
+                     <ul class="wf-step-list">
+                        <li>파츠 단위 수정</li>
+                        <li>인페인팅 / LoRA 기반 스타일 반영</li>
+                     </ul>
+                  </div>
+
+                  <div class="wf-arrow">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                     </svg>
+                  </div>
+
+                  <!-- Block 3 -->
+                  <div class="wf-card">
+                     <h2 class="wf-step-title">3. 이미지를 기반으로 3D 모델 생성</h2>
+                     <ul class="wf-step-list">
+                        <li>Image-to-3D 기반 Mesh 생성</li>
+                        <li>조형 검토 및 결과 비교</li>
+                     </ul>
+                  </div>
+               </div>
+
+               <!-- Summary Footer -->
+               <div class="wf-footer">
+                  차량 이미지를 생성하고, 필요한 경우 디자인을 수정하거나 학습된 스타일을 반영한 뒤, 이를 바탕으로 3D 메쉬 모델을 생성하는 워크플로우입니다.
+               </div>
+            </section>
+
+            <!-- Section 2: Tools & Pipeline Overview (Section 3) -->
+            <section class="wf-details-section wf-scroll-section">
+               <h2 class="wf-method-title" style="margin-bottom: 4rem;">사용한 AI 툴 및 서비스는 다음과 같습니다.</h2>
+               <div class="wf-tools-grid">
+                  <!-- Comfy UI -->
+                  <div class="wf-tool-card">
+                     <div class="wf-tool-img-placeholder">
+                        <img src="assets/컴피 웹.png" alt="Comfy UI Interface">
+                     </div>
+                     <h3 class="wf-tool-title">Comfy UI</h3>
+                     <p class="wf-tool-subtitle">입력 이미지 설계 단계</p>
+                     <ul class="wf-tool-list">
+                        <li>차량 싱글뷰 및 멀티뷰 이미지 생성</li>
+                        <li>인페인팅과 파츠별 LoRA를 활용한 부분 변형</li>
+                        <li>조형 정보(실루엣, 비례, 파츠 경계) 정제 및 통제</li>
+                     </ul>
+                  </div>
+
+                  <!-- Hunyuan 3D -->
+                  <div class="wf-tool-card">
+                     <div class="wf-tool-img-placeholder">
+                        <img src="assets/훈유안 웹.png" alt="Hunyuan 3D Interface">
+                     </div>
+                     <h3 class="wf-tool-title">Hunyuan 3D 3.0</h3>
+                     <p class="wf-tool-subtitle">3D 초안 생성 단계</p>
+                     <ul class="wf-tool-list">
+                        <li>설계된 입력 이미지를 기반으로 자동차 3D 메쉬 생성</li>
+                        <li>단일 입력과 멀티뷰 입력 결과 비교</li>
+                        <li>후면 반영, 시점 일관성, 파츠 변화 반영 여부 검토</li>
+                     </ul>
+                  </div>
+               </div>
+            </section>
+
+            <!-- Section 3: Methodology Breakdown (Section 4) -->
+            <section class="wf-method-section wf-scroll-section">
+               <h2 class="wf-method-title">A. 멀티뷰 이미지 기반 3D 모델 생성 전략</h2>
+               <p class="wf-method-desc">
+                  차량의 전·측·후면 정보를 포함한 입력 이미지를 구성하여, 3D 생성 결과에서 시점 일관성과 후면 조형 반영을 개선하는 방식
+               </p>
+
+               <div class="wf-method-grid">
+                  <!-- Col 1 -->
+                  <div class="wf-method-col">
+                     <h3 class="wf-method-col-title">1. 멀티뷰 이미지 생성</h3>
+                     <div class="wf-method-box">
+                        <span class="box-text">프롬프트</span>
+                        <span class="box-text">LoRA 학습모델</span>
+                     </div>
+                  </div>
+
+                  <div class="wf-method-arrow">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                     </svg>
+                  </div>
+
+                  <!-- Col 2 -->
+                  <div class="wf-method-col">
+                     <h3 class="wf-method-col-title">2. 멀티뷰 이미지</h3>
+                     <div class="wf-method-img">
+                        <img src="assets/멀티뷰 image.png" alt="Multi-view layout">
+                     </div>
+                  </div>
+
+                  <div class="wf-method-arrow">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                     </svg>
+                  </div>
+
+                  <!-- Col 3 (New: Image Crop) -->
+                  <div class="wf-method-col">
+                     <h3 class="wf-method-col-title">3. 이미지 크롭 및 적용</h3>
+                     <div class="wf-method-img">
+                        <img src="assets/멀티뷰 크롭.png" alt="Image Cropping">
+                     </div>
+                  </div>
+
+                  <div class="wf-method-arrow">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                     </svg>
+                  </div>
+
+                  <!-- Col 4 -->
+                  <div class="wf-method-col">
+                     <h3 class="wf-method-col-title">4. 3D 모델 생성</h3>
+                     <div class="wf-method-img">
+                        <img src="assets/멀티뷰 3D.png" alt="Generated 3D Model">
+                     </div>
+                  </div>
+               </div>
+            </section>
+
+            <!-- Section 4: Variation Strategy (Section 5) -->
+            <section class="wf-method-section wf-scroll-section" style="margin-top: 0;">
+               <h2 class="wf-method-title">B. 파츠 단위 차량 이미지 변형 및 수정 전략</h2>
+               <p class="wf-method-desc">
+                  이미 생성된 자동차 이미지를 차량의 특정 파트 영역만 인페인트 하여 디자인을 수정 및 변경 하는 방식
+               </p>
+               <div class="wf-variation-block">
+                  <!-- Row 1 -->
+                  <div class="wf-variation-row">
+                     <h3 class="wf-variation-row-title">1. 영역 마스킹</h3>
+                     <div class="wf-variation-images">
+                        <img src="assets/마스킹 (1).png" alt="Masking 1">
+                        <img src="assets/마스킹 (2).png" alt="Masking 2">
+                        <img src="assets/마스킹 (3).png" alt="Masking 3">
+                        <img src="assets/마스킹 (4).png" alt="Masking 4">
+                     </div>
+                  </div>
+
+                  <!-- Row 2 -->
+                  <div class="wf-variation-row">
+                     <h3 class="wf-variation-row-title">2. 변형 이미지</h3>
+                     <div class="wf-variation-images">
+                        <img src="assets/변형 이미지 (1).png" alt="Variation 1">
+                        <img src="assets/변형 이미지 (2).png" alt="Variation 2">
+                        <img src="assets/변형 이미지 (3).png" alt="Variation 3">
+                        <img src="assets/변형 이미지 (4).png" alt="Variation 4">
+                     </div>
+                  </div>
+
+                  <!-- Row 3 (Restored) -->
+                  <div class="wf-variation-row">
+                     <h3 class="wf-variation-row-title">3. 3D 모델 생성</h3>
+                     <div class="wf-variation-images">
+                        <img src="assets/3D 이미지 1.png" alt="3D Model 1">
+                        <img src="assets/3D 이미지 2.png" alt="3D Model 2">
+                        <img src="assets/3D 이미지 3.png" alt="3D Model 3">
+                        <img src="assets/3D 이미지 4.png" alt="3D Model 4">
+                     </div>
+                  </div>
+               </div>
+            </section>
+         </div>
+
+         <!-- 3D Viewer Area -->
+         <div class="viewer-area">
+            <!-- This model-viewer will host the 3D files. For local testing without files, it might be empty -->
+            <model-viewer id="car-model" src="" alt="3D Car Model" camera-controls auto-rotate shadow-intensity="1"
+               environment-image="neutral" exposure="1.0" interpolation-decay="100">
+               <div slot="poster" id="poster-state">
+                  <span style="color: #666; font-size: 1.2rem;">3D 모델을 불러오는 중</span>
+               </div>
+            </model-viewer>
+
+            <!-- Top-Left Workflow Box -->
+            <div class="mini-workflow-box">
+               <div class="mw-header">
+                  <strong>Workflow</strong>
+                  <span class="mw-subtitle" id="mw-subtitle">파츠 단위 차량 이미지 변형 및 수정 전략</span>
+               </div>
+               <div class="mw-flow" id="mw-steps-container">
+                  <span class="mw-step">1. 자동차 단일 이미지 생성</span>
+                  <span class="mw-arrow">⟶</span>
+                  <span class="mw-step">2. 인페인팅 재생성(차량 디자인 수정 및 변형)</span>
+                  <span class="mw-arrow">⟶</span>
+                  <span class="mw-step">3. 이미지 기반 3D 모델 생성</span>
+               </div>
+            </div>
+
+            <div class="stats-box">
+               <div class="stat-item">
+                  <span class="stat-label">생성 모델</span>
+                  <span class="stat-value" id="stat-gen-model" style="color: #60a5fa; font-weight: 600;">Hunyuan
+                     3.0</span>
+               </div>
+               <div class="stat-item">
+                  <span class="stat-label">생성 방식</span>
+                  <span class="stat-value" id="stat-gen-method">멀티뷰 이미지</span>
+               </div>
+               <div class="stat-item" style="margin-bottom: 12px;">
+                  <span class="stat-label">입력 뷰</span>
+                  <span class="stat-value" style="font-size: 0.72rem; text-align: right; max-width: 140px;"
+                     id="stat-gen-views">프론트 쿼터, 사이드, 백쿼터뷰</span>
+               </div>
+               <div class="stat-item"
+                  style="margin-top: 8px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1)">
+                  <span class="stat-label">텍스처/엔진</span>
+                  <span class="stat-value" style="color: #4ade80; font-size: 0.75rem;">1024px / WebGL</span>
+               </div>
+            </div>
+
+            <!-- Top-Right Image Preview Box -->
+            <div class="image-preview-box" id="image-preview-box">
+               <img id="preview-image" src="" alt="Reference Preview">
+            </div>
+
+            <!-- Bottom visual controls (mockup for realism) -->
+            <div class="bottom-controls">
+               <button id="btn-rotate" class="ctrl-btn active" title="Rotate View (Toggle)"><svg width="18" height="18"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                     <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                     <path d="M3 3v5h5" />
+                  </svg></button>
+               <button id="btn-zebra" class="ctrl-btn" title="Zebra Stripes Analysis (Survature Control)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                     <path d="M3 3h18v18H3z" stroke-dasharray="2 2" />
+                     <path d="M7 3v18M12 3v18M17 3v18" />
+                  </svg>
+               </button>
+               <button id="btn-textured" class="ctrl-btn active" title="Textured Mode">
+                  <svg width="18" height="18" viewBox="0 0 24 24">
+                     <defs>
+                        <linearGradient id="tex-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                           <stop offset="0%" stop-color="#3b82f6" />
+                           <stop offset="50%" stop-color="#8b5cf6" />
+                           <stop offset="100%" stop-color="#f43f5e" />
+                        </linearGradient>
+                     </defs>
+                     <circle cx="12" cy="12" r="10" fill="url(#tex-grad)" />
+                  </svg>
+               </button>
+               <button id="btn-untextured" class="ctrl-btn" title="Untextured (Clay) Mode"><svg width="18" height="18"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                     <circle cx="12" cy="12" r="10" />
+                     <path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                     <path d="M2 12h20" />
+                  </svg></button>
+            </div>
+         </div>
+
+         <!-- Right Sidebar -->
+         <aside class="right-sidebar">
+            <!-- Category Section (Hidden by default) -->
+            <section class="panel" id="category-panel" style="display: none;">
+               <h3 class="panel-title">오브젝트 분류 (Category)</h3>
+               <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px;">표준화된 멀티뷰 입력 체계를 평가하기 위한 차량
+                  카테고리입니다.</p>
+               <div class="variation-buttons" id="category-buttons">
+                  <!-- Buttons injected via JS -->
+               </div>
+            </section>
+
+            <!-- Input Images Section -->
+            <section class="panel">
+               <h3 class="panel-title">생성 이미지 (Input)</h3>
+               <div class="image-gallery" id="input-images">
+                  <!-- Images injected via JS -->
+               </div>
+            </section>
+
+            <!-- Prompt Section -->
+            <section class="panel">
+               <h3 class="panel-title">프롬프트 (Prompt)</h3>
+               <div class="prompt-box" id="prompt-text">
+                  <!-- Prompt injected via JS -->
+               </div>
+            </section>
+
+            <!-- Models Used Section -->
+            <section class="panel">
+               <h3 class="panel-title">사용 파이프라인 (Models)</h3>
+               <div class="models-box" id="models-text">
+                  <!-- Models injected via JS -->
+               </div>
+            </section>
+
+            <!-- Call to Action -->
+            <button class="action-btn" onclick="alert('평가 설문지(Google Forms)를 새 창으로 엽니다.')">
+               평가 제출하기
+            </button>
+         </aside>
+      </div>
+   </div>
+
+   <script src="script.js"></script>
+</body>
+
+</html>
