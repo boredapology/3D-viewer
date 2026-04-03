@@ -4,7 +4,9 @@ const researchData = {
         title: "싱글뷰 이미지 기반",
         workflow: {
             subtitle: "",
-            steps: ["1. 이미지 생성", "2. 이미지 기반 3D 모델 생성"]
+            steps: ["1. 이미지 생성", "2. 이미지 기반 3D 모델 생성"],
+            methodDescription: "단일 시점 렌더링 스케치 기반 Image-to-3D 생성. 측·후면 조형 정보가 입력 이미지에 내재되어 있지 않아, 3D 생성기가 독립적으로 비가시 영역을 추론 및 생성하는 방식입니다.",
+            evaluationPoint: "측·후면 정보가 부족할 때 3D 생성 결과에서 나타나는 형태 생략이나 구조적 한계를 비교군으로서 확인해 주세요."
         },
         subModels: [
             {
@@ -33,7 +35,9 @@ const researchData = {
         title: "멀티뷰 기반",
         workflow: {
             subtitle: "멀티뷰 이미지 기반 시점 일관성 강화 전략",
-            steps: ["1. 차량 멀티뷰 이미지 생성(프롬프트+ 학습모델 적용)", "2. 이미지 기반 3D 모델 생성"]
+            steps: ["1. 차량 멀티뷰 이미지 생성(프롬프트+ 학습모델 적용)", "2. 이미지 기반 3D 모델 생성"],
+            methodDescription: "ControlNet 및 LoRA 기반 다중 시점(Multi-View) 단일 이미지 생성 후 3D 생성. 전·측·후면 레이아웃이 정렬된 멀티뷰를 입력하여, 단일 뷰에서 누락되는 핵심 디자인 정보(특히 후면 조형)를 명시적으로 설계하고 통제하는 방식입니다.",
+            evaluationPoint: "입력 이미지의 후면 조형 정보가 3D에 어떻게 연동되었는지, 뷰(View) 간 시점 일관성을 중심으로 평가해 주세요."
         },
         subModels: [
             {
@@ -62,7 +66,9 @@ const researchData = {
         title: "파츠 단위 변형",
         workflow: {
             subtitle: "파츠 단위 차량 이미지 변형 및 수정 전략",
-            steps: ["1. 단일 이미지 생성", "2. 인페인팅 (디자인 수정 및 변형)", "3. 이미지 기반 3D 모델 생성"]
+            steps: ["1. 단일 이미지 생성", "2. 인페인팅 (디자인 수정 및 변형)", "3. 이미지 기반 3D 모델 생성"],
+            methodDescription: "파츠별 특화 LoRA와 인페인팅(Inpainting)을 결합한 국소 변형 3D 생성. 차선의 기본 비례와 실루엣은 통제값으로 유지하면서 특정 부위(그릴, 휠 등)의 디자인 스타일만 변경하는 수평 전개 방식입니다.",
+            evaluationPoint: "원본 차체의 비례와 정체성이 훼손되지 않고 유지되는지, 타겟 파츠의 디자인 변화만 3D에 성공적으로 동기화되었는지 확인해 주세요."
         },
         subModels: [
             {
@@ -70,17 +76,17 @@ const researchData = {
                 name: "프론트 (Front)",
                 maskingImage: "assets/파츠변형/프론트 마스킹.png",
                 variations: [
-                    { 
+                    {
                         id: "f1", name: "프론트 변형 1", image: "assets/파츠변형/프론트 (1).png", modelSrc: "assets/파츠변형/프론트 1.glb",
                         prompt: "horizontal stripe pattern grill, masterpiece, best quality",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: Geometric Grill\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
                     },
-                    { 
+                    {
                         id: "f2", name: "프론트 변형 2", image: "assets/파츠변형/프론트 (2).png", modelSrc: "assets/파츠변형/프론트 2.glb",
                         prompt: "1 front grill design, EV type grill, Blocked grill",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: Line shape Headlight\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
                     },
-                    { 
+                    {
                         id: "f3", name: "프론트 변형 3", image: "assets/파츠변형/프론트 (3).png", modelSrc: "assets/파츠변형/프론트 3.glb",
                         prompt: "line shape headlight, 1 headlight crossing over facemask of the car",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: Line shape Headlight\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
@@ -95,17 +101,17 @@ const researchData = {
                 name: "리어 (Rear)",
                 maskingImage: "assets/파츠변형/리어 마스킹.png",
                 variations: [
-                    { 
+                    {
                         id: "r1", name: "리어 변형 1", image: "assets/파츠변형/리어 (1).png", modelSrc: "assets/파츠변형/리어 1.glb",
                         prompt: "vertical rear lamp design, thin D-shaped form (ㄷ-shaped), minimal and sleek lighting signature",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: Vertical rear lamp\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
                     },
-                    { 
+                    {
                         id: "r2", name: "리어 변형 2", image: "assets/파츠변형/리어 (2).png", modelSrc: "assets/파츠변형/리어 2.glb",
                         prompt: "vertical rear lamp design, thin D-shaped form",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: Vertical rear lamp\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
                     },
-                    { 
+                    {
                         id: "r3", name: "리어 변형 3", image: "assets/파츠변형/리어 (3).png", modelSrc: "assets/파츠변형/리어 3.glb",
                         prompt: "vertical rear lamp design, thin D-shaped form (ㄷ-shaped), minimal and sleek lighting signature",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: Vertical rear lamp\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
@@ -120,17 +126,17 @@ const researchData = {
                 name: "휠 (Wheel)",
                 maskingImage: "assets/파츠변형/휠 마스킹.png",
                 variations: [
-                    { 
+                    {
                         id: "w1", name: "휠 변형 1", image: "assets/파츠변형/휠 (1).png", modelSrc: "assets/파츠변형/휠1.glb",
                         prompt: "1 wheel design, Electric Vehicle Design Wheel, Blocked Wheel Design",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: EV Wheel\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
                     },
-                    { 
+                    {
                         id: "w2", name: "휠 변형 2", image: "assets/파츠변형/휠 (2).png", modelSrc: "assets/파츠변형/휠2.glb",
                         prompt: "1 wheel design, Mesh type wheel, multi spoke wheel design, {gold|silver} color",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: Mesh Wheel\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
                     },
-                    { 
+                    {
                         id: "w3", name: "휠 변형 3", image: "assets/파츠변형/휠 (3).png", modelSrc: "assets/파츠변형/휠3.glb",
                         prompt: "1 wheel design, Electric Vehicle Design Wheel, Blocked Wheel Design",
                         models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: EV Wheel\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델"
@@ -172,23 +178,25 @@ function updateUI() {
     } else {
         data = rawData;
     }
-    
+
     // Update Model
     const viewer = document.getElementById('car-model');
     const posterState = document.getElementById('poster-state');
 
     if (data.modelSrc) {
         viewer.src = data.modelSrc;
-        posterState.style.display = 'none';
+        posterState.style.display = ''; // Let model-viewer manage visibility
+        posterState.innerHTML = '<span>3D 모델을 불러오는 중...</span>';
     } else {
         viewer.src = "";
-        posterState.style.display = 'block';
+        posterState.style.display = 'flex';
+        posterState.innerHTML = '<span style="color:#a1a1aa;">선택된 3D 모델이 없습니다.</span>';
     }
 
     // Update Images
     const imgContainer = document.getElementById('input-images');
     imgContainer.innerHTML = '';
-    
+
     const previewBox = document.getElementById('image-preview-box');
     const previewImg = document.getElementById('preview-image');
 
@@ -199,7 +207,7 @@ function updateUI() {
         maskThumb.innerHTML = `
             <div class="mask-main-box">
                 <img class="img-thumb active" src="${data.maskingImage}" alt="Masking Image">
-                <div class="mask-label">마스킹 이미지 (클릭 시 변형 목록 노출)</div>
+                <div class="mask-label">마스킹 타겟 제어 영역 (Masking)</div>
             </div>
             <div class="variation-sub-gallery" id="variation-sub-gallery">
                 ${data.variations.map((v, i) => `
@@ -212,12 +220,15 @@ function updateUI() {
         `;
         imgContainer.appendChild(maskThumb);
 
-        // Click logic for masking thumb to toggle sub-gallery
+        // Click logic for masking thumb simply shows the preview image
         const maskImg = maskThumb.querySelector('.img-thumb');
         const subGallery = maskThumb.querySelector('#variation-sub-gallery');
-        
+
         maskImg.onclick = () => {
-            subGallery.classList.toggle('show');
+            // Update UI state for active sub-item
+            subGallery.querySelectorAll('.sub-item').forEach(si => si.classList.remove('active'));
+            maskImg.classList.add('active');
+
             if (previewImg) {
                 previewImg.src = data.maskingImage;
                 previewBox.classList.add('show');
@@ -255,7 +266,7 @@ function updateUI() {
                 }
             };
         });
-        
+
         // Initial state for parts
         if (previewImg) previewImg.src = data.maskingImage;
 
@@ -265,11 +276,11 @@ function updateUI() {
             const thumb = document.createElement('img');
             thumb.className = 'img-thumb' + (idx === 0 ? ' active' : '');
             thumb.src = img;
-            
+
             // Automatically sync the preview image and camera orbit with the first thumbnail when switching panels
             if (idx === 0) {
                 if (previewImg) previewImg.src = img;
-                
+
                 if (data.cameraOrbits && data.cameraOrbits[0]) {
                     const viewer = document.getElementById('car-model');
                     const orbitParts = data.cameraOrbits[0].split(' ');
@@ -277,7 +288,7 @@ function updateUI() {
                     viewer.setAttribute('camera-orbit', `${theta}deg ${orbitParts[1]} ${orbitParts[2]}`);
                 }
             }
-            
+
             // Fallback if image doesn't exist yet
             thumb.onerror = function () {
                 this.src = `https://via.placeholder.com/80x50/333/888?text=Image+${idx + 1}`;
@@ -287,7 +298,7 @@ function updateUI() {
             thumb.onclick = () => {
                 const previewBox = document.getElementById('image-preview-box');
                 const previewImg = document.getElementById('preview-image');
-                
+
                 if (thumb.classList.contains('active')) {
                     // If it's already active, click again naturally "closes" or shrinks it
                     thumb.classList.remove('active');
@@ -298,7 +309,7 @@ function updateUI() {
                     previewImg.src = thumb.src;
                     previewBox.classList.add('show');
                 }
-                
+
                 // Rotate the 3D viewer camera to match the selected image
                 if (data.cameraOrbits && data.cameraOrbits[idx]) {
                     const viewer = document.getElementById('car-model');
@@ -325,11 +336,11 @@ function updateUI() {
     // Update Top-Left Mini Workflow Box
     const mwSubtitle = document.getElementById('mw-subtitle');
     const mwStepsContainer = document.getElementById('mw-steps-container');
-    
+
     if (rawData.workflow && mwSubtitle && mwStepsContainer) {
         mwSubtitle.textContent = rawData.workflow.subtitle;
         mwSubtitle.style.display = rawData.workflow.subtitle ? 'inline' : 'none'; // Hide if subtitle is empty
-        
+
         mwStepsContainer.innerHTML = '';
         rawData.workflow.steps.forEach((step, idx) => {
             const stepSpan = document.createElement('span');
@@ -345,6 +356,32 @@ function updateUI() {
                 mwStepsContainer.appendChild(arrowSpan);
             }
         });
+
+        // Render Extended Evaluation and Method Information
+        let extendedInfoBox = document.getElementById('mw-extended-info');
+        if (!extendedInfoBox) {
+            extendedInfoBox = document.createElement('div');
+            extendedInfoBox.id = 'mw-extended-info';
+            extendedInfoBox.className = 'mw-extended-info';
+            mwStepsContainer.parentElement.appendChild(extendedInfoBox);
+        }
+
+        extendedInfoBox.innerHTML = '';
+        if (rawData.workflow.methodDescription || rawData.workflow.evaluationPoint) {
+            extendedInfoBox.style.display = 'block';
+            let html = '';
+            if (rawData.workflow.methodDescription) {
+                html += `<div class="mw-section-title">생성 방법 및 특징</div>
+                         <div class="mw-section-desc">${rawData.workflow.methodDescription}</div>`;
+            }
+            if (rawData.workflow.evaluationPoint) {
+                html += `<div class="mw-section-title evaluation-title">🎯 평가 주안점</div>
+                         <div class="mw-section-desc evaluation-desc">${rawData.workflow.evaluationPoint}</div>`;
+            }
+            extendedInfoBox.innerHTML = html;
+        } else {
+            extendedInfoBox.style.display = 'none';
+        }
     }
 
     // Category Panel logic
@@ -354,12 +391,12 @@ function updateUI() {
             catPanel.style.display = 'block';
             const catBtnContainer = document.getElementById('category-buttons');
             catBtnContainer.innerHTML = '';
-            
+
             rawData.subModels.forEach(sm => {
                 const btn = document.createElement('button');
                 btn.className = 'var-btn' + (sm.id === currentSubModel ? ' active' : '');
                 btn.innerHTML = `<span>${sm.name}</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
-                
+
                 btn.onclick = () => {
                     if (currentSubModel === sm.id) return;
                     currentSubModel = sm.id;
@@ -371,11 +408,11 @@ function updateUI() {
             catPanel.style.display = 'none';
         }
     }
-    
+
     // Dynamic Title & Description Updates for Panels
     const catTitle = document.querySelector('#category-panel .panel-title');
     const catDesc = document.querySelector('#category-panel p');
-    const inputTitle = document.querySelector('#input-images').previousElementSibling; 
+    const inputTitle = document.querySelector('#input-images').previousElementSibling;
 
     if (currentCase === 'parts') {
         if (catTitle) catTitle.textContent = "디자인 수정 영역 분류";
@@ -467,7 +504,7 @@ viewer.addEventListener('load', () => {
     originalRoughness.clear();
     originalMetallic.clear();
     originalTextures.clear();
-    
+
     // Default to textured mode on new load
     if (btnZebra.classList.contains('active')) {
         viewer.setAttribute('environment-image', originalEnv);
@@ -478,7 +515,7 @@ viewer.addEventListener('load', () => {
 
 function cacheOriginalMaterials() {
     if (!viewer.model || isTexturesCached) return;
-    
+
     // Cache Global state
     originalEnv = viewer.getAttribute('environment-image') || "neutral";
     originalExposure = viewer.getAttribute('exposure') || "1.0";
@@ -502,7 +539,7 @@ function generateZebraPattern() {
     canvas.width = 1024; // Optimized from 2048 to save GPU memory
     canvas.height = 512;  // Optimized from 1024
     const ctx = canvas.getContext('2d');
-    
+
     const stripeWidth = 20; // Proportional density
     for (let i = 0; i < canvas.width; i += stripeWidth * 2) {
         ctx.fillStyle = '#000';
@@ -522,7 +559,7 @@ btnTextured.addEventListener('click', () => {
         viewer.setAttribute('environment-image', originalEnv);
         viewer.setAttribute('exposure', originalExposure);
     }
-    
+
     if (btnTextured.classList.contains('active')) return;
     setTextureBtnActive(btnTextured);
 
@@ -581,7 +618,7 @@ btnZebra.addEventListener('click', () => {
         btnTextured.click();
         return;
     }
-    
+
     setTextureBtnActive(btnZebra);
     if (!viewer.model) return;
     cacheOriginalMaterials();
@@ -592,7 +629,7 @@ btnZebra.addEventListener('click', () => {
 
     for (const mat of viewer.model.materials) {
         // Medium dark grey for balanced visibility and sharp reflections
-        mat.pbrMetallicRoughness.setBaseColorFactor([0.15, 0.15, 0.15, 1.0]); 
+        mat.pbrMetallicRoughness.setBaseColorFactor([0.15, 0.15, 0.15, 1.0]);
         mat.pbrMetallicRoughness.setMetallicFactor(1.0);
         mat.pbrMetallicRoughness.setRoughnessFactor(0.04); // Optimized from 0.01 for better performance
 
@@ -635,7 +672,7 @@ function smoothScrollTo(targetY, duration = 1200) {
         if (startTime === null) startTime = currentTime;
         const timeElapsed = currentTime - startTime;
         const progress = Math.min(timeElapsed / duration, 1);
-        
+
         const ease = easeOutQuart(progress);
         workflowContainer.scrollTop = startY + distance * ease;
 
@@ -643,7 +680,7 @@ function smoothScrollTo(targetY, duration = 1200) {
             requestAnimationFrame(animation);
         } else {
             // Signal animation completion after a small cooldown to avoid rapid skipping
-            setTimeout(() => { isAnimating = false; }, 200); 
+            setTimeout(() => { isAnimating = false; }, 200);
         }
     }
 
@@ -658,7 +695,10 @@ function goToSection(index) {
     if (index < 0 || index >= sections.length) return;
 
     currentSectionIndex = index;
-    smoothScrollTo(sections[currentSectionIndex].offsetTop, 1400); // 1.4s for premium feel
+    workflowContainer.scrollTo({
+        top: sections[currentSectionIndex].offsetTop,
+        behavior: 'smooth' // CSS scroll-behavior: smooth will also work, but this is a safe fallback
+    });
 
     // Handle navigation guidance at the bottom of workflow
     clearTimeout(guideBlinkTimer);
@@ -674,23 +714,45 @@ function goToSection(index) {
     }
 }
 
-// Zero-Delay Immediate Wheel Intercept
-workflowContainer.addEventListener('wheel', (e) => {
-    // Only intercept if we are in the workflow tab
-    if (currentCase !== 'workflow') return;
-    
-    // Prevent default scroll to eliminate browser delay and jitter
-    e.preventDefault();
+// --- Native Scroll Tracking with IntersectionObserver ---
+const observerOptions = {
+    root: workflowContainer,
+    threshold: 0.6 // Trigger when 60% of the section is visible
+};
 
-    if (isAnimating) return;
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const sections = Array.from(document.querySelectorAll('.wf-scroll-section'));
+            const index = sections.indexOf(entry.target);
+            if (index !== -1) {
+                currentSectionIndex = index;
 
-    // Direct direction detection
-    if (e.deltaY > 0) {
-        goToSection(currentSectionIndex + 1);
-    } else if (e.deltaY < 0) {
-        goToSection(currentSectionIndex - 1);
+                // Handle navigation guidance timer when reaching the last section
+                handleGuidanceAtBottom(index, sections.length);
+            }
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.wf-scroll-section').forEach(section => {
+    sectionObserver.observe(section);
+});
+
+function handleGuidanceAtBottom(index, total) {
+    clearTimeout(guideBlinkTimer);
+    if (navBtnSingle) navBtnSingle.classList.remove('guide-blink');
+
+    if (currentCase === 'workflow' && index === total - 1) {
+        guideBlinkTimer = setTimeout(() => {
+            if (currentCase === 'workflow' && index === total - 1 && navBtnSingle) {
+                navBtnSingle.classList.add('guide-blink');
+            }
+        }, 3000);
     }
-}, { passive: false });
+}
+
+// Removed direct 'wheel' interceptor to allow native scrolling and fix taller-than-viewport handling.
 
 // Reset index when switching tabs
 function resetWorkflowPosition() {
@@ -704,7 +766,7 @@ document.querySelectorAll('.tab').forEach(tab => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         e.target.classList.add('active');
         currentCase = e.target.getAttribute('data-case');
-        
+
         if (currentCase === 'workflow') {
             resetWorkflowPosition();
         } else {
@@ -712,7 +774,7 @@ document.querySelectorAll('.tab').forEach(tab => {
             clearTimeout(guideBlinkTimer);
             if (navBtnSingle) navBtnSingle.classList.remove('guide-blink');
         }
-        
+
         updateUI();
     });
 });
@@ -726,3 +788,18 @@ window.addEventListener('resize', () => {
         }
     }
 });
+
+// --- 3D Model Interaction (Fade out workflow box) ---
+const carModel = document.getElementById('car-model');
+const miniBox = document.querySelector('.mini-workflow-box');
+
+if (carModel && miniBox) {
+    carModel.addEventListener('pointerdown', () => {
+        miniBox.classList.add('faded');
+    });
+
+    // Listen on window to catch pointer up even if cursor moves outside the viewer
+    window.addEventListener('pointerup', () => {
+        miniBox.classList.remove('faded');
+    });
+}
