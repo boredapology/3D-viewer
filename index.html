@@ -25,7 +25,7 @@
          </div>
          <div class="case-tabs">
             <button class="tab active" data-case="workflow">워크플로우 (Workflow)</button>
-            <button class="tab" data-case="single">싱글뷰 이미지 (Baseline)</button>
+            <button class="tab" data-case="single">싱글뷰 (Baseline)</button>
             <button class="tab" data-case="multi">멀티뷰 (Proposed)</button>
             <button class="tab" data-case="parts">파츠 변형 (Application)</button>
          </div>
@@ -41,11 +41,13 @@
             <section class="wf-intro-section wf-scroll-section">
                <h2 class="wf-intro-title">안녕하세요. 전문가님</h2>
                <p class="wf-intro-text" style="color: #e4e4e7; font-weight: 400;">
-                  본 뷰어는 생성형 AI 기반 자동차 디자인 프로세스에서, 단일 시점 입력의 한계를 극복하기 위한 <strong style="color:#60a5fa;">'입력 이미지 설계·통제 전략'</strong>의 유효성을 평가하기 위한 연구 도구입니다.
+                  본 뷰어는 생성형 AI 기반 자동차 디자인 프로세스에서, 단일 시점 입력의 한계를 극복하기 위한 <strong style="color:#60a5fa;">'입력 이미지 설계·통제
+                     전략'</strong>의 유효성을 평가하기 위한 연구 도구입니다.
                </p>
 
                <p class="wf-intro-text" style="color: #e4e4e7; font-weight: 400;">
-                  본 연구는 3D 생성 모델의 절대적인 메쉬(Mesh) 품질을 비교하는 것이 아닙니다. 멀티뷰 구성을 통한 비가시 영역(후면)의 조형 반영과 인페인팅 기반 파츠 단위 변형의 통제 가능성이 실제 자동차 초기 디자인 발산 및 3D 검증 단계에서 실무적으로 유의미한지 워크플로우 관점에서 평가해 주시기 바랍니다.
+                  본 연구는 3D 생성 모델의 절대적인 메쉬(Mesh) 품질을 비교하는 것이 아닙니다. 멀티뷰 구성을 통한 비가시 영역(후면)의 조형 반영과 인페인팅 기반 파츠 단위 변형의 통제
+                  가능성이 실제 자동차 초기 디자인 발산 및 3D 검증 단계에서 실무적으로 유의미한지 워크플로우 관점에서 평가해 주시기 바랍니다.
                </p>
 
                <p class="wf-intro-text" style="color: #e4e4e7; font-weight: 500;">
@@ -55,9 +57,12 @@
                </p>
 
                <ul class="wf-intro-list">
-                  <li><strong style="color: #a1a1aa;">싱글뷰 이미지 (기준 모델):</strong> 측·후면 조형 정보가 부족할 때, 3D 생성에서 나타나는 형태 생략이나 구조적 한계 확인</li>
-                  <li><strong style="color: #a1a1aa;">멀티뷰 (다중 시점 전략):</strong> 후면 디자인 정보의 명확한 반영과, 전·측·후 시점 간 조형 일관성 유지 여부 확인</li>
-                  <li><strong style="color: #a1a1aa;">파츠 변형 (인페인팅 전개 전략):</strong> 차선의 기본 비례와 정체성을 유지한 채, 타겟 파츠의 디자인 변화만 3D에 수평 전개되는지 확인</li>
+                  <li><strong style="color: #a1a1aa;">싱글뷰 이미지 (기준 모델):</strong> 측·후면 조형 정보가 부족할 때, 3D 생성에서 나타나는 형태 생략이나
+                     구조적 한계 확인</li>
+                  <li><strong style="color: #a1a1aa;">멀티뷰 (다중 시점 전략):</strong> 후면 디자인 정보의 명확한 반영과, 전·측·후 시점 간 조형 일관성 유지
+                     여부 확인</li>
+                  <li><strong style="color: #a1a1aa;">파츠 변형 (인페인팅 전개 전략):</strong> 차선의 기본 비례와 정체성을 유지한 채, 타겟 파츠의 디자인 변화만
+                     3D에 수평 전개되는지 확인</li>
                </ul>
 
                <!-- Scroll indicator -->
@@ -315,6 +320,17 @@
                <img id="preview-image" src="" alt="Reference Preview">
             </div>
 
+            <button id="btn-exit-fullscreen"
+               style="display: none; position: absolute; top: 120px; left: 30px; z-index: 10000; background: rgba(0,0,0,0.7); border: 2px solid #60a5fa; box-shadow: 0 0 15px rgba(96,165,250,0.4); color: #fff; width: 48px; height: 48px; border-radius: 12px; cursor: pointer; align-items: center; justify-content: center; transition: 0.2s;"
+               title="Exit Focus Mode">
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6L6 18M6 6l12 12"></path>
+               </svg>
+            </button>
+            <!-- Interactive Tooltip -->
+            <div class="controls-tooltip" id="controls-tooltip">
+               ✨ 하단 기능을 통해 지브라, 재질, 전체 화면 등 다양한 표시 모드를 변환하며 살펴보세요!
+            </div>
             <!-- Bottom visual controls (mockup for realism) -->
             <div class="bottom-controls">
                <button id="btn-rotate" class="ctrl-btn active" title="Rotate View (Toggle)"><svg width="18" height="18"
@@ -326,6 +342,13 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                      <path d="M3 3h18v18H3z" stroke-dasharray="2 2" />
                      <path d="M7 3v18M12 3v18M17 3v18" />
+                  </svg>
+               </button>
+               <button id="btn-fullscreen" class="ctrl-btn" title="Focus Mode">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                     <path
+                        d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+                     </path>
                   </svg>
                </button>
                <button id="btn-textured" class="ctrl-btn active" title="Textured Mode">

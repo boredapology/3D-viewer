@@ -14,7 +14,7 @@ const researchData = {
                 name: "SUV (기본형)",
                 modelSrc: "assets/싱글뷰 suv.glb",
                 images: ["assets/싱글뷰 이미지.jpg"],
-                cameraOrbits: ["45deg 75deg auto"],
+                cameraOrbits: ["30deg 75deg auto"],
                 prompt: "A realistic conceptual sketch of a modern SUV, sleek aerodynamic design, silver gradient color, dramatic studio lighting, single front-side view.",
                 models: "<strong style='color:#60a5fa;'>[싱글뷰 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- 생성 방식: 싱글 이미지 스케치\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
                 info: { model: "Hunyuan 3.0", method: "싱글뷰 이미지", views: "프론트 쿼터뷰" }
@@ -24,7 +24,7 @@ const researchData = {
                 name: "Pick-up Truck (픽업트럭)",
                 modelSrc: "assets/싱글뷰 pick up.glb",
                 images: ["assets/싱글뷰 이미지 2.png"],
-                cameraOrbits: ["45deg 75deg auto"],
+                cameraOrbits: ["30deg 75deg auto"],
                 prompt: "A realistic conceptual sketch of a rugged heavy-duty modern pick-up truck, industrial off-road design, strong structural consistency, single front-side view.",
                 models: "<strong style='color:#60a5fa;'>[싱글뷰 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- 생성 방식: 싱글 이미지 스케치\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
                 info: { model: "Hunyuan 3.0", method: "싱글뷰 이미지", views: "프론트 쿼터뷰" }
@@ -45,7 +45,7 @@ const researchData = {
                 name: "SUV (기본형)",
                 modelSrc: "assets/멀티뷰 1.glb",
                 images: ["assets/멀티뷰 이미지 (1).jpg", "assets/멀티뷰 이미지 (2).jpg", "assets/멀티뷰 이미지 (3).jpg"],
-                cameraOrbits: ["45deg 75deg auto", "135deg 75deg auto", "90deg 75deg auto"],
+                cameraOrbits: ["30deg 75deg auto", "90deg 75deg auto", "150deg 75deg auto"],
                 prompt: "A realistic conceptual sketch of a modern SUV, separated into 3 orthographic views: precise front view, precise side view, explicit rear view. High structural consistency, architectural blueprint style.",
                 models: "<strong style='color:#60a5fa;'>[멀티뷰 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: 자체 학습 멀티뷰 LoRA\n- 생성 방식: 멀티뷰 단일 이미지 크롭 방식\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
                 info: { model: "Hunyuan 3.0", method: "멀티뷰 이미지", views: "프론트 쿼터, 사이드, 백쿼터뷰" }
@@ -55,7 +55,7 @@ const researchData = {
                 name: "Pick-up Truck (픽업트럭)",
                 modelSrc: "assets/멀티뷰 2.glb",
                 images: ["assets/멀티뷰 이미지2 (1).png", "assets/멀티뷰 이미지2 (2).png", "assets/멀티뷰 이미지2 (3).png"],
-                cameraOrbits: ["45deg 75deg auto", "90deg 75deg auto", "135deg 75deg auto"],
+                cameraOrbits: ["30deg 75deg auto", "90deg 75deg auto", "150deg 75deg auto"],
                 prompt: "A realistic conceptual sketch of a rugged heavy-duty modern pick-up truck, separated into 3 orthographic views: precise front view, precise side view, explicit rear view. Industrial off-road design, strong structural consistency, blueprint style rendering.",
                 models: "<strong style='color:#60a5fa;'>[멀티뷰 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: 자체 학습 멀티뷰 LoRA\n- 생성 방식: 멀티뷰 단일 이미지 크롭 방식\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
                 info: { model: "Hunyuan 3.0", method: "멀티뷰 이미지", views: "프론트 쿼터, 사이드, 백쿼터뷰" }
@@ -152,6 +152,7 @@ const researchData = {
 
 let currentCase = 'workflow';
 let currentSubModel = 'suv';
+let activePartsVariations = { front: 0, rear: 0, wheel: 0 };
 
 function updateUI() {
     const workflowView = document.getElementById('workflow-view');
@@ -239,9 +240,11 @@ function updateUI() {
         subGallery.querySelectorAll('.sub-item').forEach(item => {
             item.onclick = () => {
                 const idx = item.getAttribute('data-index');
+                activePartsVariations[data.id] = parseInt(idx);
                 const variation = data.variations[idx];
 
                 // Update UI state
+                maskImg.classList.remove('active');
                 subGallery.querySelectorAll('.sub-item').forEach(si => si.classList.remove('active'));
                 item.classList.add('active');
 
@@ -255,6 +258,11 @@ function updateUI() {
                 if (variation.modelSrc) {
                     viewer.src = variation.modelSrc;
                     posterState.style.display = 'none';
+                    if (viewer.hasAttribute('auto-rotate')) {
+                        viewer.removeAttribute('auto-rotate');
+                        const btnRotate = document.getElementById('btn-rotate');
+                        if (btnRotate) btnRotate.classList.remove('active');
+                    }
                 }
 
                 // Update Side Panel Info (Prompt & Models) for Parts Variation
@@ -267,8 +275,14 @@ function updateUI() {
             };
         });
 
-        // Initial state for parts
-        if (previewImg) previewImg.src = data.maskingImage;
+        // Initial state for parts: Auto-select previously viewed or first variation
+        const activeIdx = activePartsVariations[data.id] !== undefined ? activePartsVariations[data.id] : 0;
+        const targetSubItem = subGallery.querySelectorAll('.sub-item')[activeIdx];
+        if (targetSubItem) {
+            targetSubItem.click();
+        } else if (previewImg) {
+            previewImg.src = data.maskingImage;
+        }
 
     } else {
         // Default Logic for Single/Multi View
@@ -283,6 +297,7 @@ function updateUI() {
 
                 if (data.cameraOrbits && data.cameraOrbits[0]) {
                     const viewer = document.getElementById('car-model');
+                    if (typeof viewer.resetTurntableRotation === 'function') viewer.resetTurntableRotation();
                     const orbitParts = data.cameraOrbits[0].split(' ');
                     const theta = parseFloat(orbitParts[0]) + (Math.random() * 0.001);
                     viewer.setAttribute('camera-orbit', `${theta}deg ${orbitParts[1]} ${orbitParts[2]}`);
@@ -313,9 +328,15 @@ function updateUI() {
                 // Rotate the 3D viewer camera to match the selected image
                 if (data.cameraOrbits && data.cameraOrbits[idx]) {
                     const viewer = document.getElementById('car-model');
+                    if (typeof viewer.resetTurntableRotation === 'function') viewer.resetTurntableRotation();
                     const orbitParts = data.cameraOrbits[idx].split(' ');
                     const theta = parseFloat(orbitParts[0]) + (Math.random() * 0.001);
                     viewer.setAttribute('camera-orbit', `${theta}deg ${orbitParts[1]} ${orbitParts[2]}`);
+                    if (viewer.hasAttribute('auto-rotate')) {
+                        viewer.removeAttribute('auto-rotate');
+                        const btnRotate = document.getElementById('btn-rotate');
+                        if (btnRotate) btnRotate.classList.remove('active');
+                    }
                 }
             };
             imgContainer.appendChild(thumb);
@@ -331,6 +352,12 @@ function updateUI() {
         document.getElementById('stat-gen-model').textContent = data.info.model;
         document.getElementById('stat-gen-method').textContent = data.info.method;
         document.getElementById('stat-gen-views').textContent = data.info.views;
+    }
+
+    // Initial Dimming and Interaction requirement
+    if (!window.firstInteractionHandled && (currentCase === 'single' || currentCase === 'multi')) {
+        document.body.classList.add('dim-ui');
+        window.firstInteractionHandled = true; // Only trigger this dimming once
     }
 
     // Update Top-Left Mini Workflow Box
@@ -796,6 +823,16 @@ const miniBox = document.querySelector('.mini-workflow-box');
 if (carModel && miniBox) {
     carModel.addEventListener('pointerdown', () => {
         miniBox.classList.add('faded');
+        
+        // Handle un-dimming and initial interaction
+        if (document.body.classList.contains('dim-ui')) {
+            document.body.classList.remove('dim-ui');
+            setTimeout(() => {
+                if (typeof window.showBottomControlsHighlight === 'function') {
+                    window.showBottomControlsHighlight();
+                }
+            }, 1000);
+        }
     });
 
     // Listen on window to catch pointer up even if cursor moves outside the viewer
@@ -803,3 +840,53 @@ if (carModel && miniBox) {
         miniBox.classList.remove('faded');
     });
 }
+
+// --- Full screen (Focus Mode) Toggle ---
+const btnFullscreen = document.getElementById('btn-fullscreen');
+const btnExitFullscreen = document.getElementById('btn-exit-fullscreen');
+
+if (btnFullscreen) {
+    btnFullscreen.addEventListener('click', () => {
+        document.body.classList.add('focus-mode');
+        if (btnExitFullscreen) btnExitFullscreen.style.display = 'flex';
+    });
+}
+
+if (btnExitFullscreen) {
+    btnExitFullscreen.addEventListener('click', () => {
+        document.body.classList.remove('focus-mode');
+        btnExitFullscreen.style.display = 'none';
+    });
+}
+
+// --- Interactive Tooltip Logic ---
+window.controlsTooltipShown = false;
+window.firstInteractionHandled = false;
+
+window.showBottomControlsHighlight = function() {
+    if (window.controlsTooltipShown) return;
+    const tooltip = document.getElementById('controls-tooltip');
+    const bottomControls = document.querySelector('.bottom-controls');
+    
+    if (tooltip && bottomControls && (currentCase === 'single' || currentCase === 'multi')) {
+        window.controlsTooltipShown = true;
+        tooltip.classList.add('show');
+        bottomControls.classList.add('highlight-flash');
+        
+        // Auto-hide after 8 seconds
+        setTimeout(() => {
+            tooltip.classList.remove('show');
+            bottomControls.classList.remove('highlight-flash');
+        }, 8000);
+    }
+};
+
+// Hide immediately if any bottom control is clicked
+document.querySelectorAll('.bottom-controls .ctrl-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const tooltip = document.getElementById('controls-tooltip');
+        const bottomControls = document.querySelector('.bottom-controls');
+        if (tooltip) tooltip.classList.remove('show');
+        if (bottomControls) bottomControls.classList.remove('highlight-flash');
+    });
+});

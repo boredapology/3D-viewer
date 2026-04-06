@@ -1028,3 +1028,107 @@ model-viewer {
   border-color: #60a5fa !important;
 }
 
+body.focus-mode header,
+body.focus-mode .right-sidebar,
+body.focus-mode .mini-workflow-box,
+body.focus-mode .stats-box,
+body.focus-mode .bottom-controls,
+body.focus-mode .nav-tabs {
+  display: none !important;
+}
+
+body.focus-mode {
+  overflow: hidden;
+}
+
+body.focus-mode .main-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+body.focus-mode .viewer-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  z-index: 9999;
+  background: var(--bg-main);
+  margin: 0 !important;
+}
+
+body.focus-mode .image-preview-box {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10000;
+  transform: scale(1.4);
+  transform-origin: top right;
+  transition: transform 0.3s ease;
+}
+
+#btn-exit-fullscreen:hover {
+  background: rgba(255,255,255,0.1) !important;
+}
+
+/* Interactive Tooltip */
+.controls-tooltip {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.8), 0 0 10px rgba(96,165,250,0.8);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  white-space: nowrap;
+}
+
+body.focus-mode .controls-tooltip {
+  display: none !important;
+}
+
+.controls-tooltip.show {
+  opacity: 1;
+  pointer-events: auto;
+  animation: bounceTip 2.5s infinite ease-in-out;
+}
+
+@keyframes bounceTip {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-6px); }
+}
+
+@keyframes controlsGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(96, 165, 250, 0); border-color: rgba(255,255,255,0.1); }
+  50% { box-shadow: 0 0 25px rgba(96, 165, 250, 0.8); border-color: #60a5fa; }
+}
+
+.bottom-controls.highlight-flash {
+  animation: controlsGlow 2s infinite ease-in-out !important;
+  border: 1px solid #60a5fa !important;
+}
+
+/* Dim UI logic for initial interaction */
+body.dim-ui .right-sidebar,
+body.dim-ui .mini-workflow-box,
+body.dim-ui .stats-box,
+body.dim-ui .image-preview-box,
+body.dim-ui .nav-tabs,
+body.dim-ui .bottom-controls {
+  opacity: 0.15;
+  pointer-events: none;
+  transition: opacity 0.5s ease, filter 0.5s ease;
+  filter: blur(2px);
+}
+
