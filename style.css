@@ -1062,7 +1062,6 @@ body.focus-mode header,
 body.focus-mode .right-sidebar,
 body.focus-mode .mini-workflow-box,
 body.focus-mode .stats-box,
-body.focus-mode .bottom-controls,
 body.focus-mode .nav-tabs {
   display: none !important;
 }
