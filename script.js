@@ -256,8 +256,10 @@ function updateUI() {
 
                 // Update 3D Model
                 if (variation.modelSrc) {
+                    posterState.style.display = 'flex';
+                    posterState.innerHTML = '<span>3D 모델을 불러오는 중...</span>';
+                    if (typeof viewer.showPoster === 'function') viewer.showPoster();
                     viewer.src = variation.modelSrc;
-                    posterState.style.display = 'none';
                     if (viewer.hasAttribute('auto-rotate')) {
                         viewer.removeAttribute('auto-rotate');
                         const btnRotate = document.getElementById('btn-rotate');
