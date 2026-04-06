@@ -144,7 +144,7 @@ const researchData = {
                 ],
                 prompt: "Wheel design variation focusing on spoke patterns and metallic finishes, ensuring consistent depth alignment with the original rim.",
                 models: "<strong style='color:#60a5fa;'>[인페인팅 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- Tool: ComfyUI Masking\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
-                info: { model: "Hunyuan 3.0", method: "부분 파츠 변형", views: "휠 클로즈업" }
+                info: { model: "Hunyuan 3.0", method: "부분 파츠 변형", views: "휠 변경" }
             }
         ]
     }
@@ -347,12 +347,7 @@ function updateUI() {
     document.getElementById('prompt-text').innerHTML = data.prompt.replace(/\n/g, '<br/>');
     document.getElementById('models-text').innerHTML = data.models.replace(/\n/g, '<br/>');
 
-    // Update Stats
-    if (data.info) {
-        document.getElementById('stat-gen-model').textContent = data.info.model;
-        document.getElementById('stat-gen-method').textContent = data.info.method;
-        document.getElementById('stat-gen-views').textContent = data.info.views;
-    }
+
 
     // Initial Dimming and Interaction requirement
     if (!window.firstInteractionHandled && (currentCase === 'single' || currentCase === 'multi')) {
@@ -443,7 +438,7 @@ function updateUI() {
 
     if (currentCase === 'parts') {
         if (catTitle) catTitle.textContent = "디자인 수정 영역 분류";
-        if (catDesc) catDesc.textContent = "디자인 수정 및 변형이 필요한 차량의 각 파츠(부위)를 선택합니다.";
+        if (catDesc) catDesc.textContent = "단일 이미지 내에, 디자인 수정 및 변형이 필요한 차량의 각 파츠(부위)를 선택합니다.";
         if (inputTitle) inputTitle.textContent = "디자인 수정 영역 (Inpainting)";
     } else {
         if (catTitle) catTitle.textContent = "오브젝트 분류 (Category)";
@@ -823,7 +818,7 @@ const miniBox = document.querySelector('.mini-workflow-box');
 if (carModel && miniBox) {
     carModel.addEventListener('pointerdown', () => {
         miniBox.classList.add('faded');
-        
+
         // Handle un-dimming and initial interaction
         if (document.body.classList.contains('dim-ui')) {
             document.body.classList.remove('dim-ui');
@@ -863,16 +858,16 @@ if (btnExitFullscreen) {
 window.controlsTooltipShown = false;
 window.firstInteractionHandled = false;
 
-window.showBottomControlsHighlight = function() {
+window.showBottomControlsHighlight = function () {
     if (window.controlsTooltipShown) return;
     const tooltip = document.getElementById('controls-tooltip');
     const bottomControls = document.querySelector('.bottom-controls');
-    
+
     if (tooltip && bottomControls && (currentCase === 'single' || currentCase === 'multi')) {
         window.controlsTooltipShown = true;
         tooltip.classList.add('show');
         bottomControls.classList.add('highlight-flash');
-        
+
         // Auto-hide after 8 seconds
         setTimeout(() => {
             tooltip.classList.remove('show');

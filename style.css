@@ -122,9 +122,17 @@ model-viewer {
 }
 
 @keyframes loadPulse {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
 }
 
 /* Mini Workflow Box Top Left */
@@ -465,7 +473,8 @@ model-viewer {
   align-items: center;
   text-align: center;
   position: relative;
-  padding-top: 6rem; /* Ensures distance from the navbar */
+  padding-top: 6rem;
+  /* Ensures distance from the navbar */
   padding-bottom: 4rem;
 }
 
@@ -473,7 +482,8 @@ model-viewer {
   /* Process (Section 2)?? 袁⑥쨮 - 48px(3rem) ???선????*/
   background: #09090b;
   padding-top: 1rem;
-  padding-bottom: 2rem; /* Reduced fixed bottom padding to prevent overlap with Section 3 */
+  padding-bottom: 2rem;
+  /* Reduced fixed bottom padding to prevent overlap with Section 3 */
 }
 
 .wf-watermark {
@@ -497,7 +507,8 @@ model-viewer {
   z-index: 1;
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 2rem; /* Reduced from 3rem */
+  margin-bottom: 2rem;
+  /* Reduced from 3rem */
   color: #ffffff;
   letter-spacing: -0.02em;
 }
@@ -508,7 +519,8 @@ model-viewer {
   font-size: 1.15rem;
   line-height: 1.8;
   color: #e4e4e7;
-  margin-bottom: 1rem; /* Reduced from 1.5rem */
+  margin-bottom: 1rem;
+  /* Reduced from 1.5rem */
   max-width: 900px;
   font-weight: 400;
   word-break: keep-all;
@@ -519,7 +531,8 @@ model-viewer {
   z-index: 1;
   list-style: none;
   padding: 0;
-  margin: 1rem 0 2rem 0; /* Tightened vertical rhythm */
+  margin: 1rem 0 2rem 0;
+  /* Tightened vertical rhythm */
   font-size: 1.1rem;
   color: #d4d4d8;
   line-height: 1.8;
@@ -584,8 +597,10 @@ model-viewer {
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  scroll-snap-type: y proximity; /* JS 疫꿸퀡而? ?뚣끉??? ??산퉬 ????*/
-  scroll-behavior: smooth; /* JS ?醫딅빍筌롫뗄???륁뱽 ?袁る퉸 ?癒?짗(筌앸맩?? ??쎄쾿嚥▲끇以?癰궰野?*/
+  scroll-snap-type: y proximity;
+  /* JS 疫꿸퀡而? ?뚣끉??? ??산퉬 ????*/
+  scroll-behavior: smooth;
+  /* JS ?醫딅빍筌롫뗄???륁뱽 ?袁る퉸 ?癒?짗(筌앸맩?? ??쎄쾿嚥▲끇以?癰궰野?*/
   background: #09090b;
   color: #fff;
   box-sizing: border-box;
@@ -683,7 +698,8 @@ model-viewer {
   flex-direction: column;
   align-items: center;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 5.2rem; /* 20px?類ｋ즲 ?袁⑥삋嚥? ??? 餓λ쵐釉? 筌띿쉸??*/
+  padding-top: 5.2rem;
+  /* 20px?類ｋ즲 ?袁⑥삋嚥? ??? 餓λ쵐釉? 筌띿쉸??*/
 }
 
 .wf-tools-grid {
@@ -846,6 +862,7 @@ model-viewer {
     opacity: 0;
     transform: translateY(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -858,7 +875,8 @@ model-viewer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 5.2rem; /* ??삘뀲 ?諭???븍궢 ?誘れ뵠 獄쏅챶???? ?袁る퉸 20px 揶쎛- ??묐샨 鈺곌퀣??*/
+  padding-top: 5.2rem;
+  /* ??삘뀲 ?諭???븍궢 ?誘れ뵠 獄쏅챶???? ?袁る퉸 20px 揶쎛- ??묐샨 鈺곌퀣??*/
 }
 
 .wf-method-title {
@@ -1014,11 +1032,23 @@ model-viewer {
   font-weight: 700;
   color: #fff;
 }
+
 /* Navigation blinking guidance */
 @keyframes guide-blink {
-  0% { border-color: rgba(96, 165, 250, 1) !important; box-shadow: 0 0 0 rgba(74, 158, 255, 0); }
-  50% { border-color: #60a5fa !important; box-shadow: 0 0 20px rgba(96, 165, 250, 0.8); }
-  100% { border-color: rgba(96, 165, 250, 1) !important; box-shadow: 0 0 0 rgba(74, 158, 255, 0); }
+  0% {
+    border-color: rgba(96, 165, 250, 1) !important;
+    box-shadow: 0 0 0 rgba(74, 158, 255, 0);
+  }
+
+  50% {
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
+  }
+
+  100% {
+    border-color: rgba(96, 165, 250, 1) !important;
+    box-shadow: 0 0 0 rgba(74, 158, 255, 0);
+  }
 }
 
 .tab.guide-blink {
@@ -1072,7 +1102,7 @@ body.focus-mode .image-preview-box {
 }
 
 #btn-exit-fullscreen:hover {
-  background: rgba(255,255,255,0.1) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Interactive Tooltip */
@@ -1086,7 +1116,7 @@ body.focus-mode .image-preview-box {
   padding: 12px 24px;
   font-size: 1.05rem;
   font-weight: 600;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.8), 0 0 10px rgba(96,165,250,0.8);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8), 0 0 10px rgba(96, 165, 250, 0.8);
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
@@ -1105,13 +1135,29 @@ body.focus-mode .controls-tooltip {
 }
 
 @keyframes bounceTip {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-6px);
+  }
 }
 
 @keyframes controlsGlow {
-  0%, 100% { box-shadow: 0 0 0 rgba(96, 165, 250, 0); border-color: rgba(255,255,255,0.1); }
-  50% { box-shadow: 0 0 25px rgba(96, 165, 250, 0.8); border-color: #60a5fa; }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(96, 165, 250, 0);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(96, 165, 250, 0.8);
+    border-color: #60a5fa;
+  }
 }
 
 .bottom-controls.highlight-flash {
@@ -1131,4 +1177,3 @@ body.dim-ui .bottom-controls {
   transition: opacity 0.5s ease, filter 0.5s ease;
   filter: blur(2px);
 }
-
