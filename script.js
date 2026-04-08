@@ -28,6 +28,16 @@ const researchData = {
                 prompt: "A realistic conceptual sketch of a rugged heavy-duty modern pick-up truck, industrial off-road design, strong structural consistency, single front-side view.",
                 models: "<strong style='color:#60a5fa;'>[싱글뷰 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- 생성 방식: 싱글 이미지 스케치\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
                 info: { model: "Hunyuan 3.0", method: "싱글뷰 이미지", views: "프론트 쿼터뷰" }
+            },
+            {
+                id: "sedan",
+                name: "Sedan (세단)",
+                modelSrc: "assets/싱글뷰 sedan.glb",
+                images: ["assets/싱글뷰 3.png"],
+                cameraOrbits: ["30deg 75deg auto"],
+                prompt: "A realistic conceptual sketch of a modern elegant sedan, sleek aerodynamic design, silver gradient color, dramatic studio lighting, single front-side view.",
+                models: "<strong style='color:#60a5fa;'>[싱글뷰 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- 생성 방식: 싱글 이미지 스케치\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
+                info: { model: "Hunyuan 3.0", method: "싱글뷰 이미지", views: "프론트 쿼터뷰" }
             }
         ]
     },
@@ -57,6 +67,16 @@ const researchData = {
                 images: ["assets/멀티뷰 이미지2 (1).png", "assets/멀티뷰 이미지2 (2).png", "assets/멀티뷰 이미지2 (3).png"],
                 cameraOrbits: ["30deg 75deg auto", "90deg 75deg auto", "150deg 75deg auto"],
                 prompt: "A realistic conceptual sketch of a rugged heavy-duty modern pick-up truck, separated into 3 orthographic views: precise front view, precise side view, explicit rear view. Industrial off-road design, strong structural consistency, blueprint style rendering.",
+                models: "<strong style='color:#60a5fa;'>[멀티뷰 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: 자체 학습 멀티뷰 LoRA\n- 생성 방식: 멀티뷰 단일 이미지 크롭 방식\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
+                info: { model: "Hunyuan 3.0", method: "멀티뷰 이미지", views: "프론트 쿼터, 사이드, 백쿼터뷰" }
+            },
+            {
+                id: "sedan",
+                name: "Sedan (세단)",
+                modelSrc: "assets/멀티뷰 3.glb",
+                images: ["assets/멀티뷰 세단 1 (1).png", "assets/멀티뷰 세단 1 (2).png", "assets/멀티뷰 세단 1 (3).png"],
+                cameraOrbits: ["30deg 75deg auto", "90deg 75deg auto", "150deg 75deg auto"],
+                prompt: "A realistic conceptual sketch of a modern elegant sedan, separated into 3 orthographic views: precise front view, precise side view, explicit rear view. High structural consistency, architectural blueprint style.",
                 models: "<strong style='color:#60a5fa;'>[멀티뷰 이미지 생성]</strong>\n- Base: Flux.1 Dev\n- LoRA: 자체 학습 멀티뷰 LoRA\n- 생성 방식: 멀티뷰 단일 이미지 크롭 방식\n\n<strong style='color:#f472b6;'>[3D 모델 생성]</strong>\n- 3D Model: 훈유안 3D 3.0 모델",
                 info: { model: "Hunyuan 3.0", method: "멀티뷰 이미지", views: "프론트 쿼터, 사이드, 백쿼터뷰" }
             }
